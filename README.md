@@ -1,1 +1,1 @@
-# conflict-serializabe-checker
+# conflict-serializable-checker

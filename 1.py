@@ -1,6 +1,6 @@
 from collections import defaultdict 
-
-
+import networkx
+import matplotlib.pyplot as plt
 class Graph(): 
     def __init__(self,vertices): 
         self.graph = defaultdict(list) 
@@ -48,7 +48,7 @@ class Graph():
         return stack, visited
 
 
-file1 = open("input.txt","r")
+file1 = open("input1.txt","r")
 lines = file1.readlines()
 line1 = lines[0]
 line1 = line1.strip("\n")
@@ -92,13 +92,19 @@ for i in range(3, len(lines)):
 
 
 g = Graph(len(tno)+1)
+gx = networkx.DiGraph()
+for i in tno:
+	gx.add_node(i)
+
 for i in range(0, len(transactions)-1):
 	for j in range(i+1, len(transactions)):
 		if(transactions[i][0] != transactions[j][0]):
 			if(transactions[i][2] == transactions[j][2]):
 				if((transactions[i][1] == "read" and transactions[j][1] == "read") == False):
 					g.addEdge(transactions[i][0], transactions[j][0])
-
+					gx.add_edge(transactions[i][0], transactions[j][0])
+networkx.draw(gx, with_labels = True) 
+plt.savefig("filename.png") 
 
 if(g.isCyclic() == True):
 	print("Not conflict serializable")
